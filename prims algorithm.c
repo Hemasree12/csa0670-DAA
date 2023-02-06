@@ -1,44 +1,42 @@
 #include<stdio.h>
-#include<stdbool.h> 
-#define INF 9999999
-#define V 5
-int G[V][V] = {
-  {0, 9, 75, 0, 0},
-  {9, 0, 95, 19, 42},
-  {75, 95, 0, 51, 66},
-  {0, 19, 51, 0, 31},
-  {0, 42, 66, 31, 0}};
+main()
+{	
+	int a,b,u,v,n,i,j,k=1,min,mincost=0;
+	int cost[10][10],visited[10]={0};
+	printf("\nEnter the number of vertex/nodes:");
+	scanf("%d",&n);
+	printf("\nEnter the adjacency matrix:\n");
+	for(i=1;i<=n;i++)
+		for(j=1;j<=n;j++)
+		{
+			scanf("%d",&cost[i][j]);
+			if(cost[i][j]==0)
+				cost[i][j]=999;
+		}
+	visited[1]=1;
+	printf("\n");
+	while(k<n)
+	{
+		for(i=1,min=999;i<=n;i++)
+			for(j=1;j<=n;j++)
+			{
+				if(cost[i][j]< min)
+					if(visited[i]!=0)
+			  		{
+						min=cost[i][j];
+			     		a=u=i;
+			     		b=v=j;
+			   		}	
+			 }
+		if(visited[u]==0 || visited[v]==0)
+		{
+			printf("\n Edge %d:(%d %d) cost:%d",k++,a,b,min);
+			mincost+=min;
+			visited[b]=1;
+		}
+		
+		cost[a][b]=cost[b][a]=999;
+	 }
+	printf("\n Minimun cost=%d",mincost);
 
-int main() {
-  int no_edge; 
-  int i,j,selected[V];
-  memset(selected, false, sizeof(selected));
-  no_edge = 0;
-  selected[0] = true;
-  int x;  
-  int y;  
-  printf("Edge : Weight\n");
-  while (no_edge < V - 1) {
-    int min = INF;
-    x = 0;
-    y = 0;
-    for (i = 0; i < V; i++) {
-      if (selected[i]) {
-        for (j = 0; j < V; j++) {
-          if (!selected[j] && G[i][j]) {  
-            if (min > G[i][j]) {
-              min = G[i][j];
-              x = i;
-              y = j;
-            }
-          }
-        }
-      }
-    }
-    printf("%d - %d : %d\n", x, y, G[x][y]);
-    selected[y] = true;
-    no_edge++;
-  }
-
-  return 0;
 }
